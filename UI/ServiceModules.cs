@@ -23,6 +23,7 @@
             base.Load(builder);
 
             builder.RegisterType<UserManager>().As<IGenericManager<User,UserDTO>>();
+            builder.RegisterType<GroupManager>().As<IGenericManager<Group, GroupDTO>>();
         }
     }
 }

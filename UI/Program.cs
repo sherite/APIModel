@@ -9,7 +9,6 @@ namespace APIGSCore
     using DAL.Data;
     using Autofac.Extensions.DependencyInjection;
 
-
     /// <summary>
     /// init app
     /// </summary>
@@ -63,7 +62,6 @@ namespace APIGSCore
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                   
                 });
     }
 }

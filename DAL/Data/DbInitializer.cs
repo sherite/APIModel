@@ -36,6 +36,11 @@
                 context.Users.Add(user);
             }
 
+            if(context.Groups.Any())
+            {
+                return;
+            }
+
             context.SaveChanges();
         }
     }

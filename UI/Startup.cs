@@ -145,5 +145,4 @@ namespace APIGSCore
             builder.RegisterModule(new ServiceModules());
         }
     }
-   
 }
