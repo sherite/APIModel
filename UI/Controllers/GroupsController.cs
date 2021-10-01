@@ -107,9 +107,9 @@
             {
                 if (ModelState.IsValid)
                 {
-                    var result = groupManager.ValidateParams(parameters, Context);
+                    var result = groupManager.ValidateParams(parameters);
 
-                    if (result.Result.ErrorsList.Count == 0)
+                    if (result.ErrorsList.Count == 0)
                     {
                         retVal = await groupManager.SelectByFilter(parameters, Context);
 
@@ -202,16 +202,15 @@
         /// <summary>
         /// Update.
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="element">element to update</param>
         /// <returns>result of update</returns>
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult<ManagerResponse<GroupDTO>>> Update(string id, string element)
+        public async Task<ActionResult<ManagerResponse<GroupDTO>>> Update(GroupDTO element)
         {
             try
             {
-                retVal = await groupManager.Change(id, element, Context);
+                retVal = await groupManager.Change(element, Context);
             }
             catch (Exception)
             {

@@ -103,9 +103,9 @@
             {
                 if (ModelState.IsValid)
                 {
-                    var result = userManager.ValidateParams(parameters, Context);
+                    var result = userManager.ValidateParams(parameters);
 
-                    if ( result.Result.ErrorsList.Count == 0)
+                    if ( result.ErrorsList.Count == 0)
                     {
                         retVal = await userManager.SelectByFilter(parameters, Context);
 
@@ -191,16 +191,15 @@
         /// <summary>
         /// Update.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="element">element to update</param>
+        /// <param name="user">element to update</param>
         /// <returns>result of update</returns>
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult<ManagerResponse<UserDTO>>> Update(string id, string element)
+        public async Task<ActionResult<ManagerResponse<UserDTO>>> Update(UserDTO user)
         {
             try
             {
-                retVal = await userManager.Change(id, element, Context);
+                retVal = await userManager.Change(user, Context);
             }
             catch (Exception)
             {

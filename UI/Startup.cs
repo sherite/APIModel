@@ -3,14 +3,7 @@ namespace APIGSCore
     using Autofac;
     using Autofac.Extensions.DependencyInjection;
 
-    using BRL.Managers;
-
-    using Common;
-
     using DAL;
-
-    using Entities.DTOs;
-    using Entities.Models;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -19,7 +12,6 @@ namespace APIGSCore
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
     using Microsoft.OpenApi.Models;
 
     using System;

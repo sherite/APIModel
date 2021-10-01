@@ -11,7 +11,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class User : IGenericManager<Entities.Models.User, UserDTO>
+    public class User : IGenericDalManager<Entities.Models.User, UserDTO>
     {
         readonly DataBaseContext _context;
 
@@ -20,14 +20,35 @@
             _context = context;
         }
 
-        public Task<ManagerResponse<UserDTO>> Change(string id, string change, object context)
+        public async Task<ManagerResponse<UserDTO>> Change(UserDTO entity, object context)
         {
-            throw new NotImplementedException();
+            var retVal = new ManagerResponse<UserDTO>
+            {
+                CorrelationId = Guid.NewGuid()
+            };
+
+            _context.Update(entity.ToModel());
+            await _context.SaveChangesAsync();
+
+            return retVal;
         }
 
-        public Task<ManagerResponse<UserDTO>> Delete(string id, object context)
+        public async Task<ManagerResponse<UserDTO>> Delete(string id, object context)
         {
-            throw new NotImplementedException();
+            var retVal = new ManagerResponse<UserDTO>()
+            {
+                CorrelationId = Guid.NewGuid()
+            };
+
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.ID.ToString() == id);
+
+            if (user != null)
+            {
+                _context.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+
+            return retVal;
         }
 
         public async Task<ManagerResponse<UserDTO>> Insert(Entities.Models.User entity, object context)
@@ -38,7 +59,7 @@
             };
 
             await _context.Users.AddAsync(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             retVal.Object = entity.ToDTO();
 
             retVal.AdditionalInfo = string.Empty;
@@ -47,9 +68,16 @@
             return retVal;
         }
 
-        public Task<ManagerResponse<UserDTO>> SelectByFilter(Parameters filter, object context)
+        public async Task<ManagerResponse<UserDTO>> SelectByFilter(Parameters filter, object context)
         {
-            throw new NotImplementedException();
+            var retVal = new ManagerResponse<UserDTO>
+            {
+                CorrelationId = Guid.NewGuid()
+            };
+
+            await _context.SaveChangesAsync();
+
+            return retVal;
         }
 
         public async Task<ManagerResponse<UserDTO>> SelectById(string id, object context)
@@ -66,16 +94,6 @@
             retVal.ErrorsList = new List<Error>();
 
             return retVal;
-        }
-
-        public Task<ManagerResponse<UserDTO>> ValidateInsert(Entities.Models.User element, object context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ManagerResponse<UserDTO>> ValidateParams(Parameters parameters, object context)
-        {
-            throw new NotImplementedException();
         }
     }
 }

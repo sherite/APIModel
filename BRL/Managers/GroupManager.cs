@@ -10,7 +10,7 @@
 
     public class GroupManager : IGenericManager<Group, GroupDTO>
     {
-        public Task<ManagerResponse<GroupDTO>> Change(string id, string change, object context)
+        public Task<ManagerResponse<GroupDTO>> Change(GroupDTO entity, object context)
         {
             throw new NotImplementedException();
         }
@@ -40,7 +40,7 @@
             throw new NotImplementedException();
         }
 
-        public Task<ManagerResponse<GroupDTO>> ValidateParams(Parameters parameters, object context)
+        public ManagerResponse<GroupDTO> ValidateParams(Parameters parameters)
         {
             throw new NotImplementedException();
         }

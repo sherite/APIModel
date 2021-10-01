@@ -15,14 +15,14 @@
 
     public class UserManager : IGenericManager<User, UserDTO>
     {
-        public Task<ManagerResponse<UserDTO>> Change(string id, string change, object context)
+        public Task<ManagerResponse<UserDTO>> Change(UserDTO entity, object ctx)
         {
-            throw new System.NotImplementedException();
+            return new DAL.Models.User((DataBaseContext)ctx).Change(entity, ctx);
         }
 
-        public Task<ManagerResponse<UserDTO>> Delete(string id, object context)
+        public Task<ManagerResponse<UserDTO>> Delete(string id, object ctx)
         {
-            throw new System.NotImplementedException();
+            return new DAL.Models.User((DataBaseContext)ctx).Delete(id, ctx);
         }
 
         public Task<ManagerResponse<UserDTO>> Insert(User entity, object ctx)
@@ -45,9 +45,11 @@
             return await new DAL.Models.User((DataBaseContext)ctx).Insert(element, ctx);
         }
 
-        public async Task<ManagerResponse<UserDTO>> ValidateParams(Parameters parameters, object ctx)
+        public ManagerResponse<UserDTO> ValidateParams(Parameters parameters)
         {
-            return await new DAL.Models.User((DataBaseContext)ctx).ValidateParams(parameters, ctx);
+            var retVal = new ManagerResponse<UserDTO>();
+
+            return retVal;
         }
     }
 }
