@@ -103,11 +103,11 @@
             {
                 if (ModelState.IsValid)
                 {
-                    var result = userManager.ValidateParams(parameters);
+                    var result = userManager.ValidateParams(parameters, Context);
 
-                    if (userManager.ValidateParams(parameters))
+                    if ( result.Result.ErrorsList.Count == 0)
                     {
-                        retVal = await userManager.SelectByFilter(parameters);
+                        retVal = await userManager.SelectByFilter(parameters, Context);
 
                         if (retVal.Object == null)
                         {
@@ -156,11 +156,11 @@
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await userManager.ValidateInsert(element);
+                    var result = await userManager.ValidateInsert(element, Context);
 
                     if (result.ErrorsList.Count > 0)
                     {
-                        result = await userManager.Insert(element);
+                        result = await userManager.Insert(element, Context);
 
                         retVal.Object = result.Object;
                         retVal.ErrorsList = retVal.ErrorsList;
@@ -200,7 +200,7 @@
         {
             try
             {
-                retVal = await userManager.Change(id, element);
+                retVal = await userManager.Change(id, element, Context);
             }
             catch (Exception)
             {
@@ -223,7 +223,7 @@
             {
                 if (ModelState.IsValid)
                 {
-                    retVal = await userManager.Delete(id);
+                    retVal = await userManager.Delete(id, Context);
                 }
                 else
                 {

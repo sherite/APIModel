@@ -37,6 +37,7 @@
         public GroupsController(DataBaseContext context, IGenericManager<Group, GroupDTO> GroupManager)
         {
             Context = context;
+            
             groupManager = GroupManager;
         }
 
@@ -65,6 +66,7 @@
                     if (retVal.Object == null)
                     {
                         message = NOTFOUND;
+                    
                         Logger.Warn("500", message);
 
                         return NotFound(id);
@@ -73,6 +75,7 @@
                 else
                 {
                     message = BADREQUEST;
+                
                     Logger.Warn("400", message);
 
                     return BadRequest(id);
@@ -81,6 +84,7 @@
             catch (Exception e)
             {
                 message = e.Message;
+            
                 Logger.Error("500", message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, message);
@@ -103,15 +107,16 @@
             {
                 if (ModelState.IsValid)
                 {
-                    var result = groupManager.ValidateParams(parameters);
+                    var result = groupManager.ValidateParams(parameters, Context);
 
-                    if (groupManager.ValidateParams(parameters))
+                    if (result.Result.ErrorsList.Count == 0)
                     {
-                        retVal = await groupManager.SelectByFilter(parameters);
+                        retVal = await groupManager.SelectByFilter(parameters, Context);
 
                         if (retVal.Object == null)
                         {
                             message = NOTFOUND;
+              
                             Logger.Warn("500", message);
 
                             return NotFound(parameters);
@@ -120,6 +125,7 @@
                     else
                     {
                         message = NOTACCEPTABLE;
+         
                         Logger.Warn("406", message);
 
                         return StatusCode(StatusCodes.Status406NotAcceptable, parameters);
@@ -128,6 +134,7 @@
                 else
                 {
                     message = BADREQUEST;
+              
                     Logger.Warn("400", message);
 
                     return BadRequest(parameters);
@@ -136,6 +143,7 @@
             catch (Exception e)
             {
                 message = e.Message;
+        
                 Logger.Error("500", message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, message);
@@ -156,24 +164,27 @@
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await groupManager.ValidateInsert(element);
+                    var result = await groupManager.ValidateInsert(element, Context);
 
                     if (result.ErrorsList.Count > 0)
                     {
-                        result = await groupManager.Insert(element);
+                        result = await groupManager.Insert(element, Context);
 
                         retVal.Object = result.Object;
+
                         retVal.ErrorsList = retVal.ErrorsList;
                     }
                     else
                     {
                         result.CorrelationId = retVal.CorrelationId;
+                        
                         return result;
                     }
                 }
                 else
                 {
                     message = BADREQUEST;
+
                     Logger.Warn("400", message);
 
                     return BadRequest(element);
@@ -200,7 +211,7 @@
         {
             try
             {
-                retVal = await groupManager.Change(id, element);
+                retVal = await groupManager.Change(id, element, Context);
             }
             catch (Exception)
             {
@@ -223,11 +234,12 @@
             {
                 if (ModelState.IsValid)
                 {
-                    retVal = await groupManager.Delete(id);
+                    retVal = await groupManager.Delete(id, Context);
                 }
                 else
                 {
                     message = BADREQUEST;
+                    
                     Logger.Warn("400", message);
 
                     return BadRequest(id);

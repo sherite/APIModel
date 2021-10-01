@@ -6,6 +6,7 @@
     using Entities.Models;
 
     using System.Threading.Tasks;
+    using System.Collections.Generic;
     using Entities.DTOs;
 
     using DAL;
@@ -14,22 +15,22 @@
 
     public class UserManager : IGenericManager<User, UserDTO>
     {
-        public Task<ManagerResponse<UserDTO>> Change(string id, string change)
+        public Task<ManagerResponse<UserDTO>> Change(string id, string change, object context)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ManagerResponse<UserDTO>> Delete(string id)
+        public Task<ManagerResponse<UserDTO>> Delete(string id, object context)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ManagerResponse<UserDTO>> Insert(User entity)
+        public Task<ManagerResponse<UserDTO>> Insert(User entity, object ctx)
         {
-            throw new System.NotImplementedException();
+           return new DAL.Models.User((DataBaseContext)ctx).Insert(entity, ctx);
         }
 
-        public Task<ManagerResponse<UserDTO>> SelectByFilter(Parameters filter)
+        public Task<ManagerResponse<UserDTO>> SelectByFilter(Parameters filter, object context)
         {
             throw new System.NotImplementedException();
         }
@@ -39,14 +40,14 @@
             return await new DAL.Models.User((DataBaseContext)ctx).SelectById(id, ctx);
         }
 
-        public Task<ManagerResponse<UserDTO>> ValidateInsert(User element)
+        public async Task<ManagerResponse<UserDTO>> ValidateInsert(User element, object ctx)
         {
-            throw new System.NotImplementedException();
+            return await new DAL.Models.User((DataBaseContext)ctx).Insert(element, ctx);
         }
 
-        public bool ValidateParams(Parameters parameters)
+        public async Task<ManagerResponse<UserDTO>> ValidateParams(Parameters parameters, object ctx)
         {
-            throw new System.NotImplementedException();
+            return await new DAL.Models.User((DataBaseContext)ctx).ValidateParams(parameters, ctx);
         }
     }
 }

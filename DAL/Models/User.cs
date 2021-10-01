@@ -11,7 +11,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class User : IGenericManager<User, UserDTO>
+    public class User : IGenericManager<Entities.Models.User, UserDTO>
     {
         readonly DataBaseContext _context;
 
@@ -20,22 +20,34 @@
             _context = context;
         }
 
-        public Task<ManagerResponse<UserDTO>> Change(string id, string change)
+        public Task<ManagerResponse<UserDTO>> Change(string id, string change, object context)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ManagerResponse<UserDTO>> Delete(string id)
+        public Task<ManagerResponse<UserDTO>> Delete(string id, object context)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ManagerResponse<UserDTO>> Insert(User entity)
+        public async Task<ManagerResponse<UserDTO>> Insert(Entities.Models.User entity, object context)
         {
-            throw new NotImplementedException();
+            var retVal = new ManagerResponse<UserDTO>
+            {
+                CorrelationId = Guid.NewGuid()
+            };
+
+            await _context.Users.AddAsync(entity);
+            _context.SaveChanges();
+            retVal.Object = entity.ToDTO();
+
+            retVal.AdditionalInfo = string.Empty;
+            retVal.ErrorsList = new List<Error>();
+
+            return retVal;
         }
 
-        public Task<ManagerResponse<UserDTO>> SelectByFilter(Parameters filter)
+        public Task<ManagerResponse<UserDTO>> SelectByFilter(Parameters filter, object context)
         {
             throw new NotImplementedException();
         }
@@ -56,12 +68,12 @@
             return retVal;
         }
 
-        public Task<ManagerResponse<UserDTO>> ValidateInsert(User element)
+        public Task<ManagerResponse<UserDTO>> ValidateInsert(Entities.Models.User element, object context)
         {
             throw new NotImplementedException();
         }
 
-        public bool ValidateParams(Parameters parameters)
+        public Task<ManagerResponse<UserDTO>> ValidateParams(Parameters parameters, object context)
         {
             throw new NotImplementedException();
         }

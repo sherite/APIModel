@@ -10,22 +10,22 @@
 
     public class GroupManager : IGenericManager<Group, GroupDTO>
     {
-        public Task<ManagerResponse<GroupDTO>> Change(string id, string change)
+        public Task<ManagerResponse<GroupDTO>> Change(string id, string change, object context)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ManagerResponse<GroupDTO>> Delete(string id)
+        public Task<ManagerResponse<GroupDTO>> Delete(string id, object context)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ManagerResponse<GroupDTO>> Insert(Group entity)
+        public Task<ManagerResponse<GroupDTO>> Insert(Group entity, object context)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ManagerResponse<GroupDTO>> SelectByFilter(Parameters filter)
+        public Task<ManagerResponse<GroupDTO>> SelectByFilter(Parameters filter, object context)
         {
             throw new NotImplementedException();
         }
@@ -35,12 +35,12 @@
             throw new NotImplementedException();
         }
 
-        public Task<ManagerResponse<GroupDTO>> ValidateInsert(Group element)
+        public Task<ManagerResponse<GroupDTO>> ValidateInsert(Group element, object context)
         {
             throw new NotImplementedException();
         }
 
-        public bool ValidateParams(Parameters parameters)
+        public Task<ManagerResponse<GroupDTO>> ValidateParams(Parameters parameters, object context)
         {
             throw new NotImplementedException();
         }
