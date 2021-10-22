@@ -40,16 +40,29 @@
             return await new DAL.Models.User((DataBaseContext)ctx).SelectById(id, ctx);
         }
 
-        public async Task<ManagerResponse<UserDTO>> ValidateInsert(User element, object ctx)
+        public bool ValidateDelete(object element)
         {
-            return await new DAL.Models.User((DataBaseContext)ctx).Insert(element, ctx);
+            throw new System.NotImplementedException();
         }
 
-        public ManagerResponse<UserDTO> ValidateParams(Parameters parameters)
+        public bool ValidateInsert(object element)
         {
-            var retVal = new ManagerResponse<UserDTO>();
+            throw new System.NotImplementedException();
+        }
 
-            return retVal;
+        public bool ValidateSelectByFilter(object element)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool ValidateSelectById(object element)
+        {
+            return true;
+        }
+
+        public bool ValidateUpdate(object element)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

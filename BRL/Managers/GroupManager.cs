@@ -35,12 +35,27 @@
             throw new NotImplementedException();
         }
 
-        public Task<ManagerResponse<GroupDTO>> ValidateInsert(Group element, object context)
+        public bool ValidateDelete(object element)
         {
             throw new NotImplementedException();
         }
 
-        public ManagerResponse<GroupDTO> ValidateParams(Parameters parameters)
+        public bool ValidateInsert(object element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ValidateSelectByFilter(object element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ValidateSelectById(object element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ValidateUpdate(object element)
         {
             throw new NotImplementedException();
         }

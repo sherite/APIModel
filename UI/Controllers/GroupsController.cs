@@ -107,9 +107,7 @@
             {
                 if (ModelState.IsValid)
                 {
-                    var result = groupManager.ValidateParams(parameters);
-
-                    if (result.ErrorsList.Count == 0)
+                    if (groupManager.ValidateSelectByFilter(parameters))
                     {
                         retVal = await groupManager.SelectByFilter(parameters, Context);
 
@@ -164,21 +162,9 @@
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await groupManager.ValidateInsert(element, Context);
-
-                    if (result.ErrorsList.Count > 0)
+                    if (groupManager.ValidateInsert(element))
                     {
-                        result = await groupManager.Insert(element, Context);
-
-                        retVal.Object = result.Object;
-
-                        retVal.ErrorsList = retVal.ErrorsList;
-                    }
-                    else
-                    {
-                        result.CorrelationId = retVal.CorrelationId;
-                        
-                        return result;
+                        retVal = await groupManager.Insert(element, Context);
                     }
                 }
                 else
