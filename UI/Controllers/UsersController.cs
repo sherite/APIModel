@@ -35,13 +35,8 @@
         /// <summary>
         /// 
         /// </summary>
-        private IManagerResponse<UserDTO> RetVal = new ManagerResponse<UserDTO>();
-
-        /// <summary>
-        /// 
-        /// </summary>
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -53,15 +48,10 @@
         /// </summary>
         /// <param name="context">database context</param>
         /// <param name="UserManager">IGenericManager implementation</param>
-        /// <param name="retVal"></param>
-        public UsersController(
-            DataBaseContext context, 
-            IGenericManager<User, UserDTO> UserManager, 
-            IManagerResponse<UserDTO> retVal)
+        public UsersController(DataBaseContext context, IGenericManager<User, UserDTO> UserManager)
         {
             Context = context;
             userManager = UserManager;
-            RetVal = retVal;
         }
 
         /// <summary>
@@ -79,32 +69,27 @@
             {
                 if (ModelState.IsValid)
                 {
-
                     if (userManager.ValidateSelectById(id))
                     {
-                        //retVal = await userManager.SelectById(id, Context);
+                        retVal = await userManager.SelectById(id, Context);
 
-                        //if (retVal.Object == null)
-                        //{
-                        //    message = NOTFOUND;
-                        //    Logger.Warn("500", message);
+                        if (retVal.Object == null)
+                        {
+                            Logger.Warn("500", NOTFOUND);
 
-                        //    return NotFound(id);
-                        //}
-
+                            return NotFound(id);
+                        }
                     }
                     else
                     {
-                        message = BAD_INPUT_PARAMETERS;
-                        Logger.Warn("400", message);
+                        Logger.Warn("400", BAD_INPUT_PARAMETERS);
 
                         return BadRequest(id);
                     }
                 }
                 else
                 {
-                    message = BADREQUEST;
-                    Logger.Warn("400", message);
+                    Logger.Warn("400", BADREQUEST);
 
                     return BadRequest(id);
                 }
@@ -112,12 +97,13 @@
             catch (Exception e)
             {
                 message = e.Message;
+
                 Logger.Error("500", message);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 
-            return Ok(RetVal);
+            return Ok(retVal);
         }
 
         /// <summary>
@@ -136,15 +122,15 @@
                 {
                     if (userManager.ValidateSelectByFilter(parameters))
                     {
-                        //retVal = await userManager.SelectByFilter(parameters, Context);
+                        retVal = await userManager.SelectByFilter(parameters, Context);
 
-                        //if (retVal.Object == null)
-                        //{
-                        //    message = NOTFOUND;
-                        //    Logger.Warn("500", message);
+                        if (retVal.Object == null)
+                        {
+                            message = NOTFOUND;
+                            Logger.Warn("500", message);
 
-                        //    return NotFound(parameters);
-                        //}
+                            return NotFound(parameters);
+                        }
                     }
                     else
                     {
@@ -170,7 +156,7 @@
                 return StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 
-            return Ok(RetVal);
+            return Ok(retVal);
         }
 
         /// <summary>
@@ -181,13 +167,15 @@
         [HttpPost]
         public async Task<ActionResult<ManagerResponse<UserDTO>>> Insert([FromBody] User element)
         {
+            ManagerResponse<UserDTO> retVal;
+
             try
             {
                 if (ModelState.IsValid)
                 {
                     if (userManager.ValidateInsert(element))
                     {
-                        RetVal = await userManager.Insert(element, Context);
+                        retVal = await userManager.Insert(element, Context);
                     }
                     else
                     {
@@ -210,7 +198,7 @@
                 throw;
             }
 
-            return Ok(RetVal);
+            return Ok(retVal);
         }
 
         /// <summary>
@@ -222,17 +210,18 @@
         [Route("{id}")]
         public async Task<ActionResult<ManagerResponse<UserDTO>>> Update(UserDTO user)
         {
-            
+            ManagerResponse<UserDTO> retVal;
+
             try
             {
-                //RetVal = await userManager.Change(user, Context);
+                retVal = await userManager.Change(user, Context);
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return Ok(RetVal);
+            return Ok(retVal);
         }
 
         /// <summary>
@@ -244,11 +233,13 @@
         [Route("{id}")]
         public async Task<ActionResult<ManagerResponse<UserDTO>>> Delete(string id)
         {
+            ManagerResponse<UserDTO> retVal;
+
             try
             {
                 if (ModelState.IsValid)
                 {
-                    RetVal = await userManager.Delete(id, Context);
+                    retVal = await userManager.Delete(id, Context);
                 }
                 else
                 {
@@ -264,7 +255,7 @@
                 throw;
             }
 
-            return Ok(RetVal);
+            return Ok(retVal);
         }
     }
 }

@@ -1,63 +1,72 @@
 ﻿namespace BRL.Managers
 {
-    using Common;
-
-    using Entities.DTOs;
-    using Entities.Models;
-
-    using System;
     using System.Threading.Tasks;
+
+    using Common;
+    using DAL;
+    using Entities.Models;
+    using Entities.DTOs;
 
     public class GroupManager : IGenericManager<Group, GroupDTO>
     {
-        public Task<ManagerResponse<GroupDTO>> Change(GroupDTO entity, object context)
+        public async Task<ManagerResponse<GroupDTO>> Change(GroupDTO entity, object context)
         {
-            throw new NotImplementedException();
+            return await new DAL.Models.Group((DataBaseContext)context).Change(entity, context);
         }
 
-        public Task<ManagerResponse<GroupDTO>> Delete(string id, object context)
+        public async Task<ManagerResponse<GroupDTO>> Delete(string id, object context)
         {
-            throw new NotImplementedException();
+            return await new DAL.Models.Group((DataBaseContext)context).Delete(id, context);
         }
 
-        public Task<ManagerResponse<GroupDTO>> Insert(Group entity, object context)
+        public async Task<ManagerResponse<GroupDTO>> Insert(Group entity, object context)
         {
-            throw new NotImplementedException();
+            return await new DAL.Models.Group((DataBaseContext)context).Insert(entity, context);
         }
 
-        public Task<ManagerResponse<GroupDTO>> SelectByFilter(Parameters filter, object context)
+        public async Task<ManagerResponse<GroupDTO>> SelectByFilter(Parameters filter, object context)
         {
-            throw new NotImplementedException();
+            return await new DAL.Models.Group((DataBaseContext)context).SelectByFilter(filter, context);
         }
 
-        public Task<ManagerResponse<GroupDTO>> SelectById(string id, object context)
+        public async Task<ManagerResponse<GroupDTO>> SelectById(string id, object context)
         {
-            throw new NotImplementedException();
+            return await new DAL.Models.Group((DataBaseContext)context).SelectById(id, context);
         }
 
         public bool ValidateDelete(object element)
         {
-            throw new NotImplementedException();
+            bool retVal = false;
+
+            return retVal;
         }
 
         public bool ValidateInsert(object element)
         {
-            throw new NotImplementedException();
+            bool retVal = false;
+
+            return retVal;
         }
 
         public bool ValidateSelectByFilter(object element)
         {
-            throw new NotImplementedException();
+            bool retVal = false;
+
+            return retVal;
         }
 
         public bool ValidateSelectById(object element)
         {
-            throw new NotImplementedException();
+            bool retVal = false;
+
+            return retVal;
         }
 
         public bool ValidateUpdate(object element)
         {
-            throw new NotImplementedException();
+            bool retVal = false;
+
+            return retVal;
         }
     }
 }

@@ -12,18 +12,18 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class User : IGenericDalManager<Entities.Models.User, UserDTO>
+    public class Group : IGenericDalManager<Entities.Models.Group, GroupDTO>
     {
         readonly DataBaseContext _context;
 
-        public User(DataBaseContext context)
+        public Group(DataBaseContext context)
         {
             _context = context;
         }
 
-        public async Task<ManagerResponse<UserDTO>> Change(UserDTO entity, object context)
+        public async Task<ManagerResponse<GroupDTO>> Change(GroupDTO entity, object context)
         {
-            var retVal = new ManagerResponse<UserDTO>
+            var retVal = new ManagerResponse<GroupDTO>
             {
                 ExternalCorrelationId = Guid.NewGuid()
             };
@@ -32,16 +32,17 @@
             await _context.SaveChangesAsync();
 
             return retVal;
+
         }
 
-        public async Task<ManagerResponse<UserDTO>> Delete(string id, object context)
+        public async Task<ManagerResponse<GroupDTO>> Delete(string id, object context)
         {
-            var retVal = new ManagerResponse<UserDTO>()
+            var retVal = new ManagerResponse<GroupDTO>()
             {
                 ExternalCorrelationId = Guid.NewGuid()
             };
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.ID.ToString() == id);
+            var user = await _context.Groups.FirstOrDefaultAsync(x => x.ID.ToString() == id);
 
             if (user != null)
             {
@@ -50,46 +51,47 @@
             }
 
             return retVal;
+
         }
 
-        public async Task<ManagerResponse<UserDTO>> Insert(Entities.Models.User entity, object context)
+        public async Task<ManagerResponse<GroupDTO>> Insert(Entities.Models.Group entity, object context)
         {
-            var retVal = new ManagerResponse<UserDTO>
+            var retVal = new ManagerResponse<GroupDTO>
             {
                 ExternalCorrelationId = Guid.NewGuid()
             };
 
-            await _context.Users.AddAsync(entity);
+            await _context.Groups.AddAsync(entity);
             await _context.SaveChangesAsync();
 
 
             return retVal;
+
         }
 
-        public async Task<ManagerResponse<UserDTO>> SelectByFilter(Parameters filter, object context)
+        public async Task<ManagerResponse<GroupDTO>> SelectByFilter(Parameters filter, object context)
         {
-            var retVal = new ManagerResponse<UserDTO>
+            var retVal = new ManagerResponse<GroupDTO>
             {
                 ExternalCorrelationId = Guid.NewGuid()
             };
 
-            var result = await _context.Users.Where(u => u.ID >= int.Parse(filter.FromId) && u.ID <= int.Parse(filter.ToId)).ToListAsync();
+            var result = await _context.Groups.Where(u => u.ID >= int.Parse(filter.FromId) && u.ID <= int.Parse(filter.ToId)).ToListAsync();
             await _context.SaveChangesAsync();
 
             return retVal;
         }
 
-        public async Task<ManagerResponse<UserDTO>> SelectById(string id, object context)
+        public async Task<ManagerResponse<GroupDTO>> SelectById(string id, object context)
         {
-            var retVal = new ManagerResponse<UserDTO>
+            var retVal = new ManagerResponse<GroupDTO>
             {
-                ExternalCorrelationId = Guid.NewGuid(),
-                Object = new List<ObjectResponse<UserDTO>>()
+                ExternalCorrelationId = Guid.NewGuid()
             };
 
-            var result = await _context.Users.FirstOrDefaultAsync(m => m.ID.ToString() == id);
+            var result = await _context.Groups.FirstOrDefaultAsync(m => m.ID.ToString() == id);
 
-            var response = new ObjectResponse<UserDTO>
+            var response = new ObjectResponse<GroupDTO>
             {
                 InternalCorrelationId = Guid.NewGuid(),
                 Object = result.ToDTO(),

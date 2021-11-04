@@ -15,31 +15,6 @@
 
     public class UserManager : IGenericManager<User, UserDTO>
     {
-        public Task<ManagerResponse<UserDTO>> Change(UserDTO entity, object ctx)
-        {
-            return new DAL.Models.User((DataBaseContext)ctx).Change(entity, ctx);
-        }
-
-        public Task<ManagerResponse<UserDTO>> Delete(string id, object ctx)
-        {
-            return new DAL.Models.User((DataBaseContext)ctx).Delete(id, ctx);
-        }
-
-        public Task<ManagerResponse<UserDTO>> Insert(User entity, object ctx)
-        {
-           return new DAL.Models.User((DataBaseContext)ctx).Insert(entity, ctx);
-        }
-
-        public Task<ManagerResponse<UserDTO>> SelectByFilter(Parameters filter, object context)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<ManagerResponse<UserDTO>> SelectById(string id, object ctx)
-        {
-            return await new DAL.Models.User((DataBaseContext)ctx).SelectById(id, ctx);
-        }
-
         public bool ValidateDelete(object element)
         {
             throw new System.NotImplementedException();
@@ -63,6 +38,31 @@
         public bool ValidateUpdate(object element)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<ManagerResponse<UserDTO>> Change(UserDTO entity, object context)
+        {
+            return await new DAL.Models.User((DataBaseContext)context).Change(entity, context);
+        }
+
+        public async Task<ManagerResponse<UserDTO>> Delete(string id, object context)
+        {
+            return await new DAL.Models.User((DataBaseContext)context).Delete(id, context);
+        }
+
+        public async Task<ManagerResponse<UserDTO>> Insert(User entity, object context)
+        {
+            return await new DAL.Models.User((DataBaseContext)context).Insert(entity, context);
+        }
+
+        public async Task<ManagerResponse<UserDTO>> SelectByFilter(Parameters filter, object context)
+        {
+            return await new DAL.Models.User((DataBaseContext)context).SelectByFilter(filter, context);
+        }
+
+        public async Task<ManagerResponse<UserDTO>> SelectById(string id, object context)
+        {
+            return await new DAL.Models.User((DataBaseContext)context).SelectById(id, context);
         }
     }
 }

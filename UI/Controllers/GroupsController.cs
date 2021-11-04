@@ -22,6 +22,9 @@
     [ApiController]
     public class GroupsController:ControllerBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private static DataBaseContext Context { get; set; }
 
         /// <summary>
@@ -66,7 +69,7 @@
                     if (retVal.Object == null)
                     {
                         message = NOTFOUND;
-                    
+
                         Logger.Warn("500", message);
 
                         return NotFound(id);
@@ -114,7 +117,7 @@
                         if (retVal.Object == null)
                         {
                             message = NOTFOUND;
-              
+
                             Logger.Warn("500", message);
 
                             return NotFound(parameters);
